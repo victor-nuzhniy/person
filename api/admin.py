@@ -4,7 +4,7 @@ from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 from django.utils.translation import gettext_lazy as _
 
-from .models import User
+from .models import Team, User
 
 
 class CustomUserAdmin(UserAdmin):
@@ -32,4 +32,12 @@ class CustomUserAdmin(UserAdmin):
     )
 
 
+class TeamAdmin(admin.ModelAdmin):
+    """Team admin site configuration."""
+
+    list_display = ("id", "name")
+    list_display_links = ("id", "name")
+
+
 admin.site.register(User, CustomUserAdmin)
+admin.site.register(Team, TeamAdmin)

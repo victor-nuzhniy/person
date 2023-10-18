@@ -5,6 +5,16 @@ from django.db import models
 from django.utils.translation import gettext_lazy as _
 
 
+class Team(models.Model):
+    """Team model."""
+
+    name = models.CharField(max_length=50, verbose_name="Team name")
+
+    def __str__(self) -> str:
+        """Represent model."""
+        return str(self.name)
+
+
 class UserManager(BaseUserManager):
     """Define a model manager for User model with no username field."""
 
@@ -44,6 +54,9 @@ class User(AbstractUser):
 
     username = None
     email = models.EmailField(_("email address"), unique=True)
+    team = models.ForeignKey(
+        Team, on_delete=models.SET_NULL, null=True, blank=True, verbose_name="Team"
+    )
 
     USERNAME_FIELD = "email"
     REQUIRED_FIELDS = []
