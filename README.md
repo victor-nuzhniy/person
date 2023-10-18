@@ -11,6 +11,15 @@ environment variables required by application.
     DEBUG=
 
 
+### Local run in docker container using docker-compose
+
+1. Ensure `.env` file has at least `POSTGRES_USER`, `POSTGRES_PASSWORD` and 
+    `POSTGRES_DB` variables set to any string values.
+2. Run _postgres_ in docker containers:
+
+       docker-compose up  # run all services defined in docker-compose file
+
+
 ### Performing commits
 
 1. Pre-commit hook installed, settings are in .pre-commit-config.yaml
