@@ -1,7 +1,7 @@
 """Module for api app serializers."""
 from rest_framework import serializers
 
-from api.models import User
+from api.models import Team, User
 
 
 class CreateUserSerializer(serializers.ModelSerializer):
@@ -30,3 +30,13 @@ class UserSerializer(serializers.ModelSerializer):
 
         model = User
         fields = ["id", "email", "first_name", "last_name", "team"]
+
+
+class TeamSerializer(serializers.ModelSerializer):
+    """Team model serializer class."""
+
+    class Meta:
+        """Class Meta for Team serializer class."""
+
+        model = Team
+        fields = "__all__"
