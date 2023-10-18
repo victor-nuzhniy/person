@@ -1,13 +1,10 @@
 """Class and function views for api app."""
 from django.db.models import QuerySet
-from rest_framework.generics import (
-    CreateAPIView,
-    GenericAPIView,
-    ListAPIView,
-    ListCreateAPIView,
-)
+from rest_framework.generics import GenericAPIView
 from rest_framework.mixins import (
+    CreateModelMixin,
     DestroyModelMixin,
+    ListModelMixin,
     RetrieveModelMixin,
     UpdateModelMixin,
 )
@@ -18,11 +15,15 @@ from api.models import Team, User
 from api.serializers import CreateUserSerializer, TeamSerializer, UserSerializer
 
 
-class RegisterView(CreateAPIView):
+class RegisterView(CreateModelMixin, GenericAPIView):
     """Class view for user registering."""
 
     schema: AutoSchema = AutoSchema()
     serializer_class: Serializer = CreateUserSerializer
+
+    def post(self, request, *args, **kwargs):
+        """Create user."""
+        return self.create(request, *args, **kwargs)
 
 
 class UserView(
@@ -54,12 +55,16 @@ class UserView(
         return self.destroy(request, *args, **kwargs)
 
 
-class UsersView(ListAPIView):
+class UsersView(ListModelMixin, GenericAPIView):
     """Class view for list user."""
 
     schema: AutoSchema = AutoSchema()
     serializer_class: Serializer = UserSerializer
     queryset: QuerySet = User.objects.all()
+
+    def get(self, request, *args, **kwargs):
+        """Retrieve users list."""
+        return self.list(request, *args, **kwargs)
 
 
 class TeamView(
@@ -75,25 +80,29 @@ class TeamView(
     queryset: QuerySet = Team.objects.all()
 
     def get(self, request, *args, **kwargs):
-        """Get user by pk."""
+        """Get team by pk."""
         return self.retrieve(request, *args, **kwargs)
 
     def put(self, request, *args, **kwargs):
-        """Update user by pk."""
+        """Update team by pk."""
         return self.update(request, *args, **kwargs)
 
-    def patch(self, request, *args, **kwargs):
-        """Update partially by pk."""
-        return self.partial_update(request, *args, **kwargs)
-
     def delete(self, request, *args, **kwargs):
-        """Delete user by pk."""
+        """Delete team by pk."""
         return self.destroy(request, *args, **kwargs)
 
 
-class TeamsView(ListCreateAPIView):
+class TeamsView(CreateModelMixin, ListModelMixin, GenericAPIView):
     """Class view for creating and get many teams."""
 
     schema: AutoSchema = AutoSchema()
     serializer_class: Serializer = TeamSerializer
     queryset: QuerySet = Team.objects.all()
+
+    def get(self, request, *args, **kwargs):
+        """Retrieve teams list."""
+        return self.list(request, *args, **kwargs)
+
+    def post(self, request, *args, **kwargs):
+        """Create team."""
+        return self.create(request, *args, **kwargs)
