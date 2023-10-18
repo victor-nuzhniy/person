@@ -53,3 +53,9 @@ There is need to always check amount of test cases and their covering.
 1. To perform created test cases, use command:
 
        pytest --cov
+
+
+## Usage
+
+1. Api can be investigated in different ways using browsable format.
+2. "api/", "swagger<format>/", "swagger/", "redoc/" - these urls can be accessed.
