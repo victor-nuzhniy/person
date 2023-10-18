@@ -28,6 +28,23 @@ environment variables required by application.
 3. To bypass hook checking run      git commit -m "..." --no-verify
 
 
+### Setup database using sql files
+
+For work with application, you need to setup your database in docker container. To perform this:
+
+1. While postgres docker container is running, enter it (use separate terminal):
+
+       docker exec -it person bash
+
+2. Enter inside psql terminal (inside your container):
+
+       psql -U postgres
+
+3. Create database for use it in our application and use it (inside psql terminal):
+
+       CREATE DATABASE network;
+       \c person;
+
 ### Performing tests
 
 For testing application there is need to use pytest and it's plugings.
