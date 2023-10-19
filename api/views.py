@@ -16,10 +16,11 @@ from rest_framework.serializers import Serializer
 from api.common import ReadOnly
 from api.models import Team, User
 from api.schemas import (
+    swagger_get_responses,
+    swagger_post_responses,
+    swagger_put_responses,
     swagger_team_schema,
-    swagger_user_get_responses,
     swagger_user_register_schema,
-    swagger_user_responses,
     swagger_user_schema,
 )
 from api.serializers import CreateUserSerializer, TeamSerializer, UserSerializer
@@ -33,7 +34,7 @@ class RegisterView(CreateModelMixin, GenericAPIView):
 
     @swagger_auto_schema(
         request_body=swagger_user_register_schema,
-        responses=swagger_user_responses,
+        responses=swagger_post_responses,
     )
     def post(self, request, *args, **kwargs):
         """Create user."""
@@ -53,14 +54,14 @@ class UserView(
     queryset: QuerySet = User.objects.all()
     permission_classes = [IsAdminUser | (ReadOnly & IsAuthenticated)]
 
-    @swagger_auto_schema(responses=swagger_user_get_responses)
+    @swagger_auto_schema(responses=swagger_get_responses)
     def get(self, request, *args, **kwargs):
         """Get user by pk."""
         return self.retrieve(request, *args, **kwargs)
 
     @swagger_auto_schema(
         request_body=swagger_user_schema,
-        responses=swagger_user_responses,
+        responses=swagger_put_responses,
     )
     def put(self, request, *args, **kwargs):
         """Update user by pk."""
@@ -68,14 +69,14 @@ class UserView(
 
     @swagger_auto_schema(
         request_body=swagger_user_schema,
-        responses=swagger_user_responses,
+        responses=swagger_put_responses,
     )
     def patch(self, request, *args, **kwargs):
         """Update partially by pk."""
         return self.partial_update(request, *args, **kwargs)
 
     @swagger_auto_schema(
-        responses=swagger_user_responses,
+        responses=swagger_put_responses,
     )
     def delete(self, request, *args, **kwargs):
         """Delete user by pk."""
@@ -90,7 +91,7 @@ class UsersView(ListModelMixin, GenericAPIView):
     queryset: QuerySet = User.objects.all()
     permission_classes = [IsAdminUser | (ReadOnly & IsAuthenticated)]
 
-    @swagger_auto_schema(responses=swagger_user_responses)
+    @swagger_auto_schema(responses=swagger_get_responses)
     def get(self, request, *args, **kwargs):
         """Retrieve users list."""
         return self.list(request, *args, **kwargs)
@@ -109,20 +110,20 @@ class TeamView(
     queryset: QuerySet = Team.objects.all()
     permission_classes = [IsAdminUser | (ReadOnly & IsAuthenticated)]
 
-    @swagger_auto_schema(responses=swagger_user_responses)
+    @swagger_auto_schema(responses=swagger_get_responses)
     def get(self, request, *args, **kwargs):
         """Get team by pk."""
         return self.retrieve(request, *args, **kwargs)
 
     @swagger_auto_schema(
         request_body=swagger_team_schema,
-        responses=swagger_user_responses,
+        responses=swagger_put_responses,
     )
     def put(self, request, *args, **kwargs):
         """Update team by pk."""
         return self.update(request, *args, **kwargs)
 
-    @swagger_auto_schema(responses=swagger_user_responses)
+    @swagger_auto_schema(responses=swagger_put_responses)
     def delete(self, request, *args, **kwargs):
         """Delete team by pk."""
         return self.destroy(request, *args, **kwargs)
@@ -136,14 +137,14 @@ class TeamsView(CreateModelMixin, ListModelMixin, GenericAPIView):
     queryset: QuerySet = Team.objects.all()
     permission_classes = [IsAdminUser | (ReadOnly & IsAuthenticated)]
 
-    @swagger_auto_schema(responses=swagger_user_responses)
+    @swagger_auto_schema(responses=swagger_get_responses)
     def get(self, request, *args, **kwargs):
         """Retrieve teams list."""
         return self.list(request, *args, **kwargs)
 
     @swagger_auto_schema(
         request_body=swagger_team_schema,
-        responses=swagger_user_responses,
+        responses=swagger_post_responses,
     )
     def post(self, request, *args, **kwargs):
         """Create team."""

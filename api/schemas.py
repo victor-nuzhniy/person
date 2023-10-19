@@ -70,19 +70,31 @@ swagger_user_schema = openapi.Schema(
 )
 
 
-swagger_user_responses = {
-    201: "Operation successfully performed.",
-    400: "Validation errors.",
-    401: "Unauthorized.",
-    403: "You don't have permission to perform this action.",
-}
-
-
-swagger_user_get_responses = {
+swagger_put_responses = {
     200: "Operation successfully performed.",
     400: "Validation errors.",
     401: "Unauthorized.",
     403: "You don't have permission to perform this action.",
+    404: "Object not found.",
+    415: "Invalid format.",
+}
+
+
+swagger_get_responses = {
+    200: "Operation successfully performed.",
+    401: "Unauthorized.",
+    403: "You don't have permission to perform this action.",
+    404: "Object not found.",
+}
+
+
+swagger_post_responses = {
+    201: "Object successfully created.",
+    400: "Validation errors.",
+    401: "Unauthorized.",
+    403: "You don't have permission to perform this action.",
+    404: "Object not found.",
+    415: "Invalid format.",
 }
 
 
