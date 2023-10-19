@@ -16,6 +16,7 @@ from rest_framework.serializers import Serializer
 from api.common import ReadOnly
 from api.models import Team, User
 from api.schemas import (
+    swagger_delete_responses,
     swagger_get_responses,
     swagger_post_responses,
     swagger_put_responses,
@@ -76,7 +77,7 @@ class UserView(
         return self.partial_update(request, *args, **kwargs)
 
     @swagger_auto_schema(
-        responses=swagger_put_responses,
+        responses=swagger_delete_responses,
     )
     def delete(self, request, *args, **kwargs):
         """Delete user by pk."""
@@ -123,7 +124,7 @@ class TeamView(
         """Update team by pk."""
         return self.update(request, *args, **kwargs)
 
-    @swagger_auto_schema(responses=swagger_put_responses)
+    @swagger_auto_schema(responses=swagger_delete_responses)
     def delete(self, request, *args, **kwargs):
         """Delete team by pk."""
         return self.destroy(request, *args, **kwargs)

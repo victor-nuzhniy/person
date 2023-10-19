@@ -98,6 +98,14 @@ swagger_post_responses = {
 }
 
 
+swagger_delete_responses = {
+    204: "Operation successfully performed.",
+    401: "Unauthorized.",
+    403: "You don't have permission to perform this action.",
+    404: "Object not found.",
+}
+
+
 swagger_team_schema = openapi.Schema(
     title="Team operations.",
     type=openapi.TYPE_OBJECT,
