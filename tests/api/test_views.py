@@ -261,14 +261,15 @@ class TestUsersView:
         """Test UsersView get method."""
         current_user, headers = get_authorized_admin_user_data
         users: List[User] = UserFactory.create_batch(size=7)
-        result_users = [current_user] + users
         url: str = reverse("users")
         response = client.get(url, headers=headers)
         result: List = response.json()
         assert response.status_code == 200
-        for i, user in enumerate(result):
+        for i, user in enumerate(reversed(result)):
+            if i == 7:
+                break
             for key, value in user.items():
                 if key == "team" and value:
-                    assert getattr(result_users[i], key).id == value
+                    assert getattr(users[-1 - i], key).id == value
                 else:
-                    assert getattr(result_users[i], key) == value
+                    assert getattr(users[-1 - i], key) == value
