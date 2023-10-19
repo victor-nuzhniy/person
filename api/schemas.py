@@ -78,6 +78,14 @@ swagger_user_responses = {
 }
 
 
+swagger_user_get_responses = {
+    200: "Operation successfully performed.",
+    400: "Validation errors.",
+    401: "Unauthorized.",
+    403: "You don't have permission to perform this action.",
+}
+
+
 swagger_team_schema = openapi.Schema(
     title="Team operations.",
     type=openapi.TYPE_OBJECT,

@@ -17,6 +17,7 @@ from api.common import ReadOnly
 from api.models import Team, User
 from api.schemas import (
     swagger_team_schema,
+    swagger_user_get_responses,
     swagger_user_register_schema,
     swagger_user_responses,
     swagger_user_schema,
@@ -52,7 +53,7 @@ class UserView(
     queryset: QuerySet = User.objects.all()
     permission_classes = [IsAdminUser | (ReadOnly & IsAuthenticated)]
 
-    @swagger_auto_schema(responses=swagger_user_responses)
+    @swagger_auto_schema(responses=swagger_user_get_responses)
     def get(self, request, *args, **kwargs):
         """Get user by pk."""
         return self.retrieve(request, *args, **kwargs)
