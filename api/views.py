@@ -16,7 +16,6 @@ from rest_framework.serializers import Serializer
 from api.common import ReadOnly
 from api.models import Team, User
 from api.schemas import (
-    auth_header_param,
     swagger_team_schema,
     swagger_user_register_schema,
     swagger_user_responses,
@@ -52,9 +51,7 @@ class UserView(
     queryset: QuerySet = User.objects.all()
     permission_classes = [IsAdminUser | (ReadOnly & IsAuthenticated)]
 
-    @swagger_auto_schema(
-        responses=swagger_user_responses, manual_parameters=[auth_header_param]
-    )
+    @swagger_auto_schema(responses=swagger_user_responses)
     def get(self, request, *args, **kwargs):
         """Get user by pk."""
         return self.retrieve(request, *args, **kwargs)
@@ -62,7 +59,6 @@ class UserView(
     @swagger_auto_schema(
         request_body=swagger_user_register_schema,
         responses=swagger_user_responses,
-        manual_parameters=[auth_header_param],
     )
     def put(self, request, *args, **kwargs):
         """Update user by pk."""
@@ -71,14 +67,13 @@ class UserView(
     @swagger_auto_schema(
         request_body=swagger_user_register_schema,
         responses=swagger_user_responses,
-        manual_parameters=[auth_header_param],
     )
     def patch(self, request, *args, **kwargs):
         """Update partially by pk."""
         return self.partial_update(request, *args, **kwargs)
 
     @swagger_auto_schema(
-        responses=swagger_user_responses, manual_parameters=[auth_header_param]
+        responses=swagger_user_responses,
     )
     def delete(self, request, *args, **kwargs):
         """Delete user by pk."""
@@ -93,9 +88,7 @@ class UsersView(ListModelMixin, GenericAPIView):
     queryset: QuerySet = User.objects.all()
     permission_classes = [IsAdminUser | (ReadOnly & IsAuthenticated)]
 
-    @swagger_auto_schema(
-        responses=swagger_user_responses, manual_parameters=[auth_header_param]
-    )
+    @swagger_auto_schema(responses=swagger_user_responses)
     def get(self, request, *args, **kwargs):
         """Retrieve users list."""
         return self.list(request, *args, **kwargs)
@@ -114,9 +107,7 @@ class TeamView(
     queryset: QuerySet = Team.objects.all()
     permission_classes = [IsAdminUser | (ReadOnly & IsAuthenticated)]
 
-    @swagger_auto_schema(
-        responses=swagger_user_responses, manual_parameters=[auth_header_param]
-    )
+    @swagger_auto_schema(responses=swagger_user_responses)
     def get(self, request, *args, **kwargs):
         """Get team by pk."""
         return self.retrieve(request, *args, **kwargs)
@@ -124,15 +115,12 @@ class TeamView(
     @swagger_auto_schema(
         request_body=swagger_team_schema,
         responses=swagger_user_responses,
-        manual_parameters=[auth_header_param],
     )
     def put(self, request, *args, **kwargs):
         """Update team by pk."""
         return self.update(request, *args, **kwargs)
 
-    @swagger_auto_schema(
-        responses=swagger_user_responses, manual_parameters=[auth_header_param]
-    )
+    @swagger_auto_schema(responses=swagger_user_responses)
     def delete(self, request, *args, **kwargs):
         """Delete team by pk."""
         return self.destroy(request, *args, **kwargs)
@@ -146,9 +134,7 @@ class TeamsView(CreateModelMixin, ListModelMixin, GenericAPIView):
     queryset: QuerySet = Team.objects.all()
     permission_classes = [IsAdminUser | (ReadOnly & IsAuthenticated)]
 
-    @swagger_auto_schema(
-        responses=swagger_user_responses, manual_parameters=[auth_header_param]
-    )
+    @swagger_auto_schema(responses=swagger_user_responses)
     def get(self, request, *args, **kwargs):
         """Retrieve teams list."""
         return self.list(request, *args, **kwargs)
@@ -156,7 +142,6 @@ class TeamsView(CreateModelMixin, ListModelMixin, GenericAPIView):
     @swagger_auto_schema(
         request_body=swagger_team_schema,
         responses=swagger_user_responses,
-        manual_parameters=[auth_header_param],
     )
     def post(self, request, *args, **kwargs):
         """Create team."""

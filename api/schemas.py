@@ -1,15 +1,6 @@
 """Schemas module for 'api' app."""
 from drf_yasg import openapi
 
-auth_header_param = openapi.Parameter(
-    "Authorization",
-    openapi.IN_HEADER,
-    description="Authentication token",
-    type=openapi.IN_HEADER,
-    default="Bearer ",
-)
-
-
 swagger_user_register_schema = openapi.Schema(
     title="Create user.",
     type=openapi.TYPE_OBJECT,
@@ -101,6 +92,7 @@ swagger_user_responses = {
     200: "Operation successfully performed.",
     400: "Validation errors.",
     401: "Unauthorized.",
+    403: "You don't have permission to perform this action.",
 }
 
 
