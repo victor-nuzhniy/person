@@ -21,5 +21,8 @@ def get_authorized_admin_user_data(
     token_data: Dict = {"email": user.email, "password": "password"}
     response = client.post(token_url, data=token_data)
     access_token = response.json().get("access")
-    headers: Dict = {"Authorization": f"Bearer {access_token}"}
+    headers: Dict = {
+        "Authorization": f"Bearer {access_token}",
+        "Content-Type": "application/json",
+    }
     return user, headers
