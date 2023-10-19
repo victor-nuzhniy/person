@@ -1,4 +1,6 @@
 """Factories for testing 'service' app."""
+import datetime
+
 import factory
 
 from api.models import Team, User
@@ -13,6 +15,7 @@ class TeamFactory(BaseModelFactory):
 
         model = Team
         exclude = ("user_set",)
+        skip_postgeneration_save = True
 
     name: str = factory.Faker("pystr", min_chars=1, max_chars=50)
     user_set = factory.RelatedFactoryList(
@@ -30,13 +33,14 @@ class UserFactory(BaseModelFactory):
 
         model = User
         django_get_or_create = ("team",)
+        skip_postgeneration_save = True
 
     email = factory.Faker("email")
     first_name = factory.Faker("first_name")
     last_name = factory.Faker("last_name")
     is_staff = factory.Faker("pybool")
     is_active = factory.Faker("pybool")
-    date_joined = factory.Faker("date_time")
+    date_joined = factory.Faker("date_time", tzinfo=datetime.timezone.utc)
     password = factory.Faker("pystr", min_chars=1, max_chars=128)
-    last_login = factory.Faker("date_time")
+    last_login = factory.Faker("date_time", tzinfo=datetime.timezone.utc)
     team = factory.SubFactory(TeamFactory)
