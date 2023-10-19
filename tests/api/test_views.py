@@ -1,4 +1,5 @@
 """Module for testing api app views."""
+import json
 from typing import Dict, List, Tuple
 
 import pytest
@@ -6,7 +7,7 @@ from django.test import Client
 from django.urls import reverse
 from faker import Faker
 
-from api.models import User
+from api.models import Team, User
 from tests.api.factories import TeamFactory, UserFactory
 
 
@@ -77,8 +78,8 @@ class TestRegisterView:
 
 
 @pytest.mark.django_db
-class TestUserView:
-    """Class for testing UserView methods."""
+class TestUserGetView:
+    """Class for testing UserView get method."""
 
     pytestmark = pytest.mark.django_db
 
@@ -101,3 +102,56 @@ class TestUserView:
                 assert getattr(user, key).id == value
             else:
                 assert getattr(user, key) == value
+
+    def test_user_get_method_no_user(
+        self,
+        faker: Faker,
+        client: Client,
+        get_authorized_admin_user_data: Tuple[User, Dict],
+    ) -> None:
+        """Test UserView get method."""
+        current_user, headers = get_authorized_admin_user_data
+        url: str = reverse("user", kwargs={"pk": faker.random_int()})
+        response = client.get(url, headers=headers)
+        assert response.status_code == 404
+
+    def test_user_get_method_unauthorized(
+        self,
+        faker: Faker,
+        client: Client,
+    ) -> None:
+        """Test UserView get method."""
+        url: str = reverse("user", kwargs={"pk": faker.random_int()})
+        response = client.get(url)
+        assert response.status_code == 401
+
+
+@pytest.mark.django_db
+class TestUserPutView:
+    """Class for testing UserView get method."""
+
+    pytestmark = pytest.mark.django_db
+
+    def test_user_put_method(
+        self,
+        faker: Faker,
+        client: Client,
+        get_authorized_admin_user_data: Tuple[User, Dict],
+    ) -> None:
+        """Test UserView put method."""
+        current_user, headers = get_authorized_admin_user_data
+        user: User = UserFactory()
+        team: Team = TeamFactory()
+        data: Dict = {
+            "email": user.email,
+            "first_name": user.first_name,
+            "last_name": user.last_name,
+            "team": team.pk,
+        }
+        url: str = reverse("user", kwargs={"pk": user.pk})
+        response = client.put(url, headers=headers, data=json.dumps(data))
+        result: Dict = response.json()
+        assert response.status_code == 200
+        for key, value in result.items():
+            if key != "id":
+                assert data[key] == value
