@@ -24,18 +24,9 @@ swagger_user_register_schema = openapi.Schema(
             example="Alan",
         ),
         "team": openapi.Schema(
-            type=openapi.TYPE_OBJECT,
-            description="Team to join. Can be blank.",
-            properties={
-                "id": openapi.Schema(
-                    type=openapi.TYPE_INTEGER, description="Team id", example=1
-                ),
-                "name": openapi.Schema(
-                    type=openapi.TYPE_STRING,
-                    description="Team name.",
-                    example="Good fellas.",
-                ),
-            },
+            type=openapi.TYPE_INTEGER,
+            description="Team id to join. Can be blank.",
+            example=1,
         ),
         "password": openapi.Schema(
             type=openapi.TYPE_STRING,
@@ -70,18 +61,9 @@ swagger_user_schema = openapi.Schema(
             example="Alan",
         ),
         "team": openapi.Schema(
-            type=openapi.TYPE_OBJECT,
-            description="Team to join. Can be blank.",
-            properties={
-                "id": openapi.Schema(
-                    type=openapi.TYPE_INTEGER, description="Team id", example=1
-                ),
-                "name": openapi.Schema(
-                    type=openapi.TYPE_STRING,
-                    description="Team name.",
-                    example="Good fellas.",
-                ),
-            },
+            type=openapi.TYPE_INTEGER,
+            description="Team id to join. Can be blank.",
+            example=1,
         ),
     },
     required=["email"],

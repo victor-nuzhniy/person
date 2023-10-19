@@ -19,6 +19,7 @@ from api.schemas import (
     swagger_team_schema,
     swagger_user_register_schema,
     swagger_user_responses,
+    swagger_user_schema,
 )
 from api.serializers import CreateUserSerializer, TeamSerializer, UserSerializer
 
@@ -57,7 +58,7 @@ class UserView(
         return self.retrieve(request, *args, **kwargs)
 
     @swagger_auto_schema(
-        request_body=swagger_user_register_schema,
+        request_body=swagger_user_schema,
         responses=swagger_user_responses,
     )
     def put(self, request, *args, **kwargs):
@@ -65,7 +66,7 @@ class UserView(
         return self.update(request, *args, **kwargs)
 
     @swagger_auto_schema(
-        request_body=swagger_user_register_schema,
+        request_body=swagger_user_schema,
         responses=swagger_user_responses,
     )
     def patch(self, request, *args, **kwargs):
